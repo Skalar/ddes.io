@@ -1,0 +1,68 @@
+menu:
+  docs: Docs
+  api: API
+  releases: Releases
+  search: Search
+
+index:
+  get_started: Get started
+
+page:
+  contents: Contents
+  back_to_top: Back to Top
+  improve: Improve this doc
+  prev: Prev
+  next: Next
+  last_updated: "Last updated: %s"
+
+sidebar:
+  docs:
+    getting_started: Getting Started
+    overview: Overview
+    store: Defining a store
+    aggregates: Defining an aggregate class
+    aggregate_instances: Aggregate instances
+    migration: Migration
+    usage: Usage
+    projections: Projections
+    store_transformations: Store transformations
+    snapshots: Aggregate snapshots
+    event_streaming: Event streaming
+    auto_scaling: Auto-scaling
+    upcasters: Upcasters
+    server: Server
+    generating: Generating
+    deployment: Deployment
+    customization: Customization
+    permalinks: Permalinks
+    themes: Themes
+    structure: Structure
+    templates: Templates
+    variables: Variables
+    helpers: Helpers
+    internationalization: Internationalization (i18n)
+    plugins: Plugins
+    miscellaneous: Miscellaneous
+    troubleshooting: Troubleshooting
+    contributing: Contributing
+  api:
+    packages: Packages
+    overview: Overview
+    events: Events
+    locals: Locals
+    router: Router
+    box: Box
+    rendering: Rendering
+    posts: Posts
+    scaffolds: Scaffolds
+    themes: Themes
+    extensions: Extensions
+    console: Console
+    deployer: Deployer
+    filter: Filter
+    generator: Generator
+    helper: Helper
+    migrator: Migrator
+    processor: Processor
+    renderer: Renderer
+    tag: Tag

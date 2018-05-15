@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - 9
+
+branches:
+  only:
+    - master
+
+install: npm install
+
+before_script:
+- git config --global user.name "ddes-ci"
+- git config --global user.email "ci@ddes.io"
+- sed -i "s/__GITHUB_TOKEN__/${GITHUB_TOKEN}/" _config.yml
+
+script: npx hexo clean && npx hexo generate && npx hexo deploy

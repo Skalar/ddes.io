@@ -1,0 +1,26 @@
+title: DDES
+subtitle: "Distributed Event Sourcing & CQRS framework"
+description: "DDES is an open source JS/TypeScript framework for distributed event sourcing & CQRS."
+author: Trym Skaar
+language: en
+timezone: UTC
+
+url: https://ddes.io
+root: /
+permalink: news/:year/:month/:day/:title/
+archive_dir: news
+code_dir: downloads/code
+new_post_name: :year-:month-:day-:title.md # File name of new posts
+post_asset_folder: true
+per_page: 0
+
+theme: navy
+deploy:
+  type: git
+  repo: https://__GITHUB_TOKEN__@github.com/skalar/ddes.io.git
+
+highlight:
+  enable: true
+  line_number: false
+
+github: skalar/ddes
