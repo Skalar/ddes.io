@@ -4,10 +4,15 @@ docs:
     store: store.html
     aggregates: aggregates.html
     aggregate_instances: aggregate_instances.html
+    example_playground: example_playground.html
   usage:
     snapshots: snapshots.html
     projections: projections.html
     event_streaming: event_streaming.html
     upcasters: upcasters.html
     auto_scaling: auto_scaling.html
-    store_transformations: store_transformations.html
+    cli: cli.html
+
+  store_transformations:
+    transformers: store_transformations.html
+    

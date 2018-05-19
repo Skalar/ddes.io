@@ -1,6 +1,39 @@
 title: Defining an aggregate class
 ---
 
+## Class anatomy
+
+```typescript
+import {Aggregate, KeySchema, EventWithMetaData} from '@ddes/core'
+
+class MyAggregate extends Aggregate {
+  // The key schema tells DDES how to convert from key properties
+  // to a key string and vice-versa.
+  static keySchema = new KeySchema(['accountId', 'groupId'])
+
+  // The stateReducer is responsible for producing the aggregate state
+  static stateReducer = (state: MyStateType, event: EventWithMetaData) {
+    // return updated state
+  }
+  
+  // The static helper method MyAggregate.create() invokes the
+  // create instance method with the provided properties.
+  // [API docs](https://s3-eu-west-1.amazonaws.com/ddes-docs/latest/classes/_ddes_core.aggregate.html) for details.
+  async create(props: {accountId: string, groupId: string}) {
+    if (this.state) { throw new Error('already exists') }
+  
+    await this.commit({type: 'SomeEvent', properties: {accountId, groupId}})
+  }
+ 
+  async doSomething() {
+    // validate that current state allows doSomething to be invoked
+    await this.commit({type: 'SomethingWasDone', properties: {hello: 'there'}})
+  }
+
+  // .. more aggregate commands
+}
+```
+
 See [API docs](https://s3-eu-west-1.amazonaws.com/ddes-docs/latest/classes/_ddes_core.aggregate.html) for details.
 
 

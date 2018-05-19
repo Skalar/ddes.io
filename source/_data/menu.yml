@@ -1,3 +1,3 @@
 docs: /docs/
-api: https://s3-eu-west-1.amazonaws.com/ddes-docs/latest/index.html
+api: api.html
 releases: https://github.com/skalar/ddes/releases

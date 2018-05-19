@@ -13,17 +13,20 @@ See [API docs](https://s3-eu-west-1.amazonaws.com/ddes-docs/latest/classes/_ddes
 ```typescript
 import {AwsStore} from '@ddes/aws-store'
 
-export default new AwsStore({
-  tableName: `ddes-main`,
-
-  snapshots: {
-    s3BucketName: `ddes-snapshots`,
-    manageBucket: true,
-  },
+const mainStore = new AwsStore({
+  tableName: `ddes-main`
 })
 ```
 
-### Local DynamoDB and S3
+### Setup
+
+Before the Store can be used, you need to set it up.
+
+```typescript
+await mainStore.setup()
+```
+
+### Usaging local DynamoDB and S3
 
 #### Running docker containers
 

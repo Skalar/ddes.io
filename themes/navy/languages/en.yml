@@ -22,7 +22,9 @@ sidebar:
     store: Defining a store
     aggregates: Defining an aggregate class
     aggregate_instances: Aggregate instances
+    cli: Command-line interface
     migration: Migration
+    example_playground: Example playground
     usage: Usage
     projections: Projections
     store_transformations: Store transformations
