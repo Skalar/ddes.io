@@ -9,6 +9,10 @@ import {Aggregate, KeySchema, EventWithMetaData} from '@ddes/core'
 class MyAggregate extends Aggregate {
   // The key schema tells DDES how to convert from key properties
   // to a key string and vice-versa.
+  static eventStore = new AwsEventStore({})
+
+  // The key schema tells DDES how to convert from key properties
+  // to a key string and vice-versa.
   static keySchema = new KeySchema(['accountId', 'groupId'])
 
   // The stateReducer is responsible for producing the aggregate state
@@ -44,7 +48,7 @@ import {Aggregate, EventWithMetadata, KeySchema} from '@ddes/core'
 import {randomBytes} from 'crypto'
 
 class BankAccount extends Aggregate {
-  static store = myStore
+  static eventstore = myStore
   static keySchema = new KeySchema([
     {
       name: 'id',

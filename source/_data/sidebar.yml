@@ -13,6 +13,4 @@ docs:
     auto_scaling: auto_scaling.html
     cli: cli.html
 
-  store_transformations:
-    transformers: store_transformations.html
-    
+  

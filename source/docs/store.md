@@ -1,68 +1,51 @@
-title: Defining a store
+title: Defining an EventStore
 ---
 
-The store serves as an interface for reading and writing Aggregate commits and snapshots.
+The EventStore class serves as an interface for reading and writing Aggregate commits and snapshots.
 
-## AwsStore
+## AwsEventStore
 
-AwsStore is powered by AWS DynamoDB and S3, and currently the only available store class.
-See [API docs](https://s3-eu-west-1.amazonaws.com/ddes-docs/latest/classes/_ddes_aws_store.awsstore.html) for a complete list of configuration options.
+AwsEventStore is powered by AWS DynamoDB, and currently the only EventStore implementation.
+
+See [API docs](https://s3-eu-west-1.amazonaws.com/ddes-docs/latest/classes/_ddes_aws_store.awseventstore.html) for a complete list of configuration options.
 
 ### Minimal example
 
 ```typescript
-import {AwsStore} from '@ddes/aws-store'
+import {AwsEventStore} from '@ddes/aws-store'
 
-const mainStore = new AwsStore({
+const mainStore = new AwsEventStore({
   tableName: `ddes-main`
 })
 ```
 
 ### Setup
 
-Before the Store can be used, you need to set it up.
+Before the EventStore can be used, you need to set it up.
 
 ```typescript
 await mainStore.setup()
 ```
 
-### Usaging local DynamoDB and S3
+### Using local DynamoDB
 
-#### Running docker containers
+#### Running docker container
 
 ```bash
-# Run local DynamoDB
+# Starting container
 docker run --rm -d --name ddb -p 8000:8000 socialpoint/dynalite \
   dynalite --port=8000 --createTableMs=1 --deleteTableMs=1 --updateTableMs=1
 
-# Run local S3
-docker run --rm -d --name s3 -p 5000:5000 skalar/fakes3 \
-  s3rver --hostname 0.0.0.0 --port 5000 --directory /tmp/s3 --silent
-
-# Shutting down containers
-docker kill s3 ddb
+# Shutting down container
+docker kill ddb
 ```
 
-#### Store configuration
+#### Configuration
 ```typescript
-import {AwsStore} from '@ddes/aws-store'
+import {AwsEventStore} from '@ddes/aws-store'
 
-export default new AwsStore({
+export default new AwsEventStore({
   tableName: `ddes-main`,
-
-  snapshots: {
-    s3BucketName: `ddes-snapshots`,
-    manageBucket: true,
-  },
-
-  s3ClientConfiguration: {
-    endpoint: 'http://localhost:5000',
-    sslEnabled: false,
-    s3ForcePathStyle: true,
-    accessKeyId: 'test',
-    secretAccessKey: 'test',
-    region: 'us-east-1',
-  },
 
   dynamodbClientConfiguration: {
     endpoint: 'http://localhost:8000',

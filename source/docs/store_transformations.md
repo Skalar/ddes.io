@@ -1,4 +1,4 @@
-title: Store transformations
+title: EventStore transformations
 ---
 
 DDES store transformations allow you to easily transform stores using different strategies.

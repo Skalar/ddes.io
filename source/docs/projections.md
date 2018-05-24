@@ -13,7 +13,7 @@ const metaStore = new AwsMetaStore({
 })
 ```
 
-Like with Store, you need to run setup() before using the MetaStore.
+Like with an EventStore, you need to run setup() before using the MetaStore.
 
 ```typescript
 await metaStore.setup()
@@ -53,7 +53,7 @@ await forumsProjection.setup({
 ## Running projector
 
 ```typescript
-const projector = new Projector([forumsProjection], {store: mainStore}})
+const projector = new Projector([forumsProjection], {eventStore: mainStore}})
 
 projector.start()
 ```
