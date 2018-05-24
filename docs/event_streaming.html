@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Event streaming | DDES</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ddes.io/docs/event_streaming.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ddes.io/docs/event_streaming.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 3.7.1">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="DDES">
+  <!-- Open Graph -->
+  
+  <!-- Google Analytics -->
+  
+</head>
+
+<body>
+  <div id="container">
+    <div>
+<header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <h1 id="logo-wrap">
+      <a href="/" id="logo">DDES</a>
+    </h1>
+    <nav id="main-nav">
+      <a href="/docs/" class="main-nav-link">Docs</a><a href="/api.html" class="main-nav-link">API</a><a href="https://github.com/skalar/ddes/releases" class="main-nav-link">Releases</a>
+    </nav>
+    <div>
+      <a href="https://github.com/skalar/ddes" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+</div>
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope="" itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Event streaming</h1>
+                <a href="https://github.com/Skalar/ddes.io/edit/master/source/docs/event_streaming.md" class="article-edit-link" title="Improve this doc"><i class="fa fa-pencil"></i></a>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>In cases, such as when providing GraphQL subscriptions, you want to be notified when events matching certain criteria are committed to the store.</p>
+<p>You accomplish this by using the EventStreamer and EventSubscriber classes provided by the <code>@ddes/event-streaming</code> package.</p>
+<h2 id="Installation" class="article-heading"><a href="#Installation" class="headerlink" title="Installation"></a>Installation<a class="article-anchor" href="#Installation" aria-hidden="true"></a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn add @ddes/event-streaming</span><br></pre></td></tr></table></figure>
+<h2 id="Running-server" class="article-heading"><a href="#Running-server" class="headerlink" title="Running server"></a>Running server<a class="article-anchor" href="#Running-server" aria-hidden="true"></a></h2><p>EventStreamer provides push-style event subscriptions over WebSockets.</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;EventStreamer&#125; <span class="keyword">from</span> <span class="string">'@ddes/event-streaming'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> eventStreamer = <span class="keyword">new</span> EventStreamer(&#123;</span><br><span class="line">  port: <span class="number">80</span>,</span><br><span class="line">  store: mainStore,</span><br><span class="line">  chronologicalGroups: [<span class="string">'forums'</span>],</span><br><span class="line">  filterAggregateTypes: [<span class="string">'Forum'</span>, <span class="string">'ForumThread'</span>]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Subscribing-to-events" class="article-heading"><a href="#Subscribing-to-events" class="headerlink" title="Subscribing to events"></a>Subscribing to events<a class="article-anchor" href="#Subscribing-to-events" aria-hidden="true"></a></h2><p>EventSubscriber connects to an EventStreamer and yields matching events as they are committed to the store.</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;EventSubscriber&#125; <span class="keyword">from</span> <span class="string">'@ddes/event-streaming'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> events = <span class="keyword">new</span> EventSubscriber(&#123;</span><br><span class="line">  wsUrl: <span class="string">`ws://localhost`</span>,</span><br><span class="line">  events: [</span><br><span class="line">    &#123;</span><br><span class="line">      aggregateType: [<span class="string">'Forum'</span>, <span class="string">'ForumThread'</span>]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> event of events) &#123;</span><br><span class="line">  <span class="comment">// do something with event</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2018-05-24T19:54:50.853Z" itemprop="dateModified">Last updated: 2018-05-24</time>
+                <a href="projections.html" class="article-footer-prev" title="Projections"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="upcasters.html" class="article-footer-next" title="Upcasters"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Installation"><span class="toc-text">Installation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-server"><span class="toc-text">Running server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subscribing-to-events"><span class="toc-text">Subscribing to events</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Getting Started</strong><a href="index.html" class="sidebar-link">Overview</a><a href="store.html" class="sidebar-link">Defining an EventStore</a><a href="aggregates.html" class="sidebar-link">Defining an aggregate class</a><a href="aggregate_instances.html" class="sidebar-link">Aggregate instances</a><a href="example_playground.html" class="sidebar-link">Example playground</a><strong class="sidebar-title">Usage</strong><a href="snapshots.html" class="sidebar-link">Aggregate snapshots</a><a href="projections.html" class="sidebar-link">Projections</a><a href="event_streaming.html" class="sidebar-link current">Event streaming</a><a href="upcasters.html" class="sidebar-link">Upcasters</a><a href="auto_scaling.html" class="sidebar-link">Auto-scaling</a><a href="cli.html" class="sidebar-link">Command-line interface</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/" class="mobile-nav-link">Docs</a><a href="/api.html" class="mobile-nav-link">API</a><a href="https://github.com/skalar/ddes/releases" class="mobile-nav-link">Releases</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/skalar/ddes" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Getting Started</strong><a href="index.html" class="mobile-nav-link">Overview</a><a href="store.html" class="mobile-nav-link">Defining an EventStore</a><a href="aggregates.html" class="mobile-nav-link">Defining an aggregate class</a><a href="aggregate_instances.html" class="mobile-nav-link">Aggregate instances</a><a href="example_playground.html" class="mobile-nav-link">Example playground</a><strong class="mobile-nav-title">Usage</strong><a href="snapshots.html" class="mobile-nav-link">Aggregate snapshots</a><a href="projections.html" class="mobile-nav-link">Projections</a><a href="event_streaming.html" class="mobile-nav-link current">Event streaming</a><a href="upcasters.html" class="mobile-nav-link">Upcasters</a><a href="auto_scaling.html" class="mobile-nav-link">Auto-scaling</a><a href="cli.html" class="mobile-nav-link">Command-line interface</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="docs/event_streaming.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+<script src="/js/toc.js"></script>
+<script src="/js/mobile_nav.js"></script>
+<!-- endbuild -->
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>DDES</title>
+  
+  <subtitle>Distributed Event Sourcing &amp; CQRS framework</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ddes.io/"/>
+  <updated>2018-05-24T19:54:50.853Z</updated>
+  <id>https://ddes.io/</id>
+  
+  <author>
+    <name>Trym Skaar</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://ddes.io/news/2018/05/01/something/"/>
+    <id>https://ddes.io/news/2018/05/01/something/</id>
+    <published>2018-05-01T00:00:00.000Z</published>
+    <updated>2018-05-24T19:54:50.853Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="title-Test"><a href="#title-Test" class="headerlink" title="title: Test"></a>title: Test</h2><p>Test</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;title-Test&quot;&gt;&lt;a href=&quot;#title-Test&quot; class=&quot;headerlink&quot; title=&quot;title: Test&quot;&gt;&lt;/a&gt;title: Test&lt;/h2&gt;&lt;p&gt;Test&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>

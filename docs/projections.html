@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Projections | DDES</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ddes.io/docs/projections.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ddes.io/docs/projections.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 3.7.1">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="DDES">
+  <!-- Open Graph -->
+  
+  <!-- Google Analytics -->
+  
+</head>
+
+<body>
+  <div id="container">
+    <div>
+<header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <h1 id="logo-wrap">
+      <a href="/" id="logo">DDES</a>
+    </h1>
+    <nav id="main-nav">
+      <a href="/docs/" class="main-nav-link">Docs</a><a href="/api.html" class="main-nav-link">API</a><a href="https://github.com/skalar/ddes/releases" class="main-nav-link">Releases</a>
+    </nav>
+    <div>
+      <a href="https://github.com/skalar/ddes" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+</div>
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope="" itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Projections</h1>
+                <a href="https://github.com/Skalar/ddes.io/edit/master/source/docs/projections.md" class="article-edit-link" title="Improve this doc"><i class="fa fa-pencil"></i></a>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>Projections allow us to project data from an event store to other types of stores for optimized querying (e.g. elasticsearch). </p>
+<h2 id="Defining-a-MetaStore" class="article-heading"><a href="#Defining-a-MetaStore" class="headerlink" title="Defining a MetaStore"></a>Defining a MetaStore<a class="article-anchor" href="#Defining-a-MetaStore" aria-hidden="true"></a></h2><p>DDES needs somewhere to store projection progress. A MetaStore is a basic key/value store and can be used to store metadata for for multiple projections.</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> metaStore = <span class="keyword">new</span> AwsMetaStore(&#123;</span><br><span class="line">  tableName: <span class="string">'ddes-meta'</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Like with an EventStore, you need to run setup() before using the MetaStore.</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">await</span> metaStore.setup()</span><br></pre></td></tr></table></figure>
+<h2 id="Defining-a-projection" class="article-heading"><a href="#Defining-a-projection" class="headerlink" title="Defining a projection"></a>Defining a projection<a class="article-anchor" href="#Defining-a-projection" aria-hidden="true"></a></h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> forumsProjection = <span class="keyword">new</span> Projection(&#123;</span><br><span class="line">  metaStore,</span><br><span class="line">  name: <span class="string">'forums'</span>,</span><br><span class="line">  aggregateClasses: &#123;Forum, ForumThread&#125;</span><br><span class="line">  dependencies: &#123;</span><br><span class="line">    ForumThread: &#123;</span><br><span class="line">      Forum: <span class="function">(<span class="params">forumThread, forum</span>) =&gt;</span></span><br><span class="line">        forumThread.keyProps.forumId === forum.keyProps.forumId,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> processEvents(events) &#123;</span><br><span class="line">    <span class="comment">// order and dependencies are maintained by DDES,</span></span><br><span class="line">    <span class="comment">// so the the provided events set is safe to process in parallel</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Projection-setup" class="article-heading"><a href="#Projection-setup" class="headerlink" title="Projection setup"></a>Projection setup<a class="article-anchor" href="#Projection-setup" aria-hidden="true"></a></h2><p>Before projecting data, the projection needs to be configured.</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">await</span> forumsProjection.setup(&#123;</span><br><span class="line">  startsAt: <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">'2018-01-01'</span>) <span class="comment">// date of the first commit in the store to project</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Running-projector" class="article-heading"><a href="#Running-projector" class="headerlink" title="Running projector"></a>Running projector<a class="article-anchor" href="#Running-projector" aria-hidden="true"></a></h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> projector = <span class="keyword">new</span> Projector([forumsProjection], &#123;eventStore: mainStore&#125;&#125;)</span><br><span class="line"></span><br><span class="line">projector.start()</span><br></pre></td></tr></table></figure>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2018-05-24T19:54:50.853Z" itemprop="dateModified">Last updated: 2018-05-24</time>
+                <a href="snapshots.html" class="article-footer-prev" title="Aggregate snapshots"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="event_streaming.html" class="article-footer-next" title="Event streaming"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Defining-a-MetaStore"><span class="toc-text">Defining a MetaStore</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Defining-a-projection"><span class="toc-text">Defining a projection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Projection-setup"><span class="toc-text">Projection setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-projector"><span class="toc-text">Running projector</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Getting Started</strong><a href="index.html" class="sidebar-link">Overview</a><a href="store.html" class="sidebar-link">Defining an EventStore</a><a href="aggregates.html" class="sidebar-link">Defining an aggregate class</a><a href="aggregate_instances.html" class="sidebar-link">Aggregate instances</a><a href="example_playground.html" class="sidebar-link">Example playground</a><strong class="sidebar-title">Usage</strong><a href="snapshots.html" class="sidebar-link">Aggregate snapshots</a><a href="projections.html" class="sidebar-link current">Projections</a><a href="event_streaming.html" class="sidebar-link">Event streaming</a><a href="upcasters.html" class="sidebar-link">Upcasters</a><a href="auto_scaling.html" class="sidebar-link">Auto-scaling</a><a href="cli.html" class="sidebar-link">Command-line interface</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/" class="mobile-nav-link">Docs</a><a href="/api.html" class="mobile-nav-link">API</a><a href="https://github.com/skalar/ddes/releases" class="mobile-nav-link">Releases</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/skalar/ddes" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Getting Started</strong><a href="index.html" class="mobile-nav-link">Overview</a><a href="store.html" class="mobile-nav-link">Defining an EventStore</a><a href="aggregates.html" class="mobile-nav-link">Defining an aggregate class</a><a href="aggregate_instances.html" class="mobile-nav-link">Aggregate instances</a><a href="example_playground.html" class="mobile-nav-link">Example playground</a><strong class="mobile-nav-title">Usage</strong><a href="snapshots.html" class="mobile-nav-link">Aggregate snapshots</a><a href="projections.html" class="mobile-nav-link current">Projections</a><a href="event_streaming.html" class="mobile-nav-link">Event streaming</a><a href="upcasters.html" class="mobile-nav-link">Upcasters</a><a href="auto_scaling.html" class="mobile-nav-link">Auto-scaling</a><a href="cli.html" class="mobile-nav-link">Command-line interface</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="docs/projections.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+<script src="/js/toc.js"></script>
+<script src="/js/mobile_nav.js"></script>
+<!-- endbuild -->
+
+
+</body>
+</html>

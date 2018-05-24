@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Aggregate snapshots | DDES</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ddes.io/docs/snapshots.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ddes.io/docs/snapshots.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 3.7.1">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="DDES">
+  <!-- Open Graph -->
+  
+  <!-- Google Analytics -->
+  
+</head>
+
+<body>
+  <div id="container">
+    <div>
+<header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <h1 id="logo-wrap">
+      <a href="/" id="logo">DDES</a>
+    </h1>
+    <nav id="main-nav">
+      <a href="/docs/" class="main-nav-link">Docs</a><a href="/api.html" class="main-nav-link">API</a><a href="https://github.com/skalar/ddes/releases" class="main-nav-link">Releases</a>
+    </nav>
+    <div>
+      <a href="https://github.com/skalar/ddes" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+</div>
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope="" itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Aggregate snapshots</h1>
+                <a href="https://github.com/Skalar/ddes.io/edit/master/source/docs/snapshots.md" class="article-edit-link" title="Improve this doc"><i class="fa fa-pencil"></i></a>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>Aggregate snapshots allow you to store the state of aggregate instances manually and/or at given version intervals. This allows for more efficient loading of aggregate instances with a large number of commits.</p>
+<h2 id="Defining-a-SnapshotStore" class="article-heading"><a href="#Defining-a-SnapshotStore" class="headerlink" title="Defining a SnapshotStore"></a>Defining a SnapshotStore<a class="article-anchor" href="#Defining-a-SnapshotStore" aria-hidden="true"></a></h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;AwsSnapshotStore&#125; <span class="keyword">from</span> <span class="string">'@ddes/aws-store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> AwsEventStore(&#123;</span><br><span class="line">  bucketName: <span class="string">`ddes-snapshots`</span>,</span><br><span class="line">  keyPrefix: <span class="string">'snapshots/'</span>,</span><br><span class="line">  manageBucket: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Configure-Aggregate-class-to-use-snapshots" class="article-heading"><a href="#Configure-Aggregate-class-to-use-snapshots" class="headerlink" title="Configure Aggregate class to use snapshots"></a>Configure Aggregate class to use snapshots<a class="article-anchor" href="#Configure-Aggregate-class-to-use-snapshots" aria-hidden="true"></a></h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> MyAggregate <span class="keyword">extends</span> Aggregate &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> snapshotStore = mySnapshotStore</span><br><span class="line">  <span class="keyword">static</span> snapshotFrequency = <span class="number">1000</span> <span class="comment">// snapshot every 1000 versions</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Manually-write-snapshot" class="article-heading"><a href="#Manually-write-snapshot" class="headerlink" title="Manually write snapshot"></a>Manually write snapshot<a class="article-anchor" href="#Manually-write-snapshot" aria-hidden="true"></a></h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">await</span> myinstance.writeSnapshot()</span><br></pre></td></tr></table></figure>
+<h2 id="Skipping-snapshotting-when-committing" class="article-heading"><a href="#Skipping-snapshotting-when-committing" class="headerlink" title="Skipping snapshotting when committing"></a>Skipping snapshotting when committing<a class="article-anchor" href="#Skipping-snapshotting-when-committing" aria-hidden="true"></a></h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line">myinstance.commit(myEvents, &#123;skipSnapshot: <span class="literal">true</span>&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Using-local-S3" class="article-heading"><a href="#Using-local-S3" class="headerlink" title="Using local S3"></a>Using local S3<a class="article-anchor" href="#Using-local-S3" aria-hidden="true"></a></h2><h3 id="Running-docker-container" class="article-heading"><a href="#Running-docker-container" class="headerlink" title="Running docker container"></a>Running docker container<a class="article-anchor" href="#Running-docker-container" aria-hidden="true"></a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Start local S3</span></span><br><span class="line">docker run --rm -d --name s3 -p 5000:5000 skalar/fakes3 \</span><br><span class="line">  s3rver --hostname 0.0.0.0 --port 5000 --directory /tmp/s3 --silent</span><br><span class="line"></span><br><span class="line"><span class="comment"># Stop local S3</span></span><br><span class="line">docker <span class="built_in">kill</span> s3</span><br></pre></td></tr></table></figure>
+<h3 id="Configuration" class="article-heading"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration<a class="article-anchor" href="#Configuration" aria-hidden="true"></a></h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;AwsSnapshotStore&#125; <span class="keyword">from</span> <span class="string">'@ddes/aws-store'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> AwsSnapshotStore(&#123;</span><br><span class="line">  tableName: <span class="string">`ddes-main`</span>,</span><br><span class="line"></span><br><span class="line">  dynamodbClientConfiguration: &#123;</span><br><span class="line">    endpoint: <span class="string">'http://localhost:8000'</span>,</span><br><span class="line">    region: <span class="string">'us-east-1'</span>,</span><br><span class="line">    accessKeyId: <span class="string">'test'</span>,</span><br><span class="line">    secretAccessKey: <span class="string">'test'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>See <a href="https://s3-eu-west-1.amazonaws.com/ddes-docs/latest/classes/_ddes_aws_store.awseventstore.html" target="_blank" rel="noopener">API docs</a> for details.</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2018-05-24T19:54:50.853Z" itemprop="dateModified">Last updated: 2018-05-24</time>
+                <a href="example_playground.html" class="article-footer-prev" title="Example playground"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="projections.html" class="article-footer-next" title="Projections"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Defining-a-SnapshotStore"><span class="toc-text">Defining a SnapshotStore</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-Aggregate-class-to-use-snapshots"><span class="toc-text">Configure Aggregate class to use snapshots</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Manually-write-snapshot"><span class="toc-text">Manually write snapshot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Skipping-snapshotting-when-committing"><span class="toc-text">Skipping snapshotting when committing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-local-S3"><span class="toc-text">Using local S3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Running-docker-container"><span class="toc-text">Running docker container</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuration"><span class="toc-text">Configuration</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Getting Started</strong><a href="index.html" class="sidebar-link">Overview</a><a href="store.html" class="sidebar-link">Defining an EventStore</a><a href="aggregates.html" class="sidebar-link">Defining an aggregate class</a><a href="aggregate_instances.html" class="sidebar-link">Aggregate instances</a><a href="example_playground.html" class="sidebar-link">Example playground</a><strong class="sidebar-title">Usage</strong><a href="snapshots.html" class="sidebar-link current">Aggregate snapshots</a><a href="projections.html" class="sidebar-link">Projections</a><a href="event_streaming.html" class="sidebar-link">Event streaming</a><a href="upcasters.html" class="sidebar-link">Upcasters</a><a href="auto_scaling.html" class="sidebar-link">Auto-scaling</a><a href="cli.html" class="sidebar-link">Command-line interface</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/" class="mobile-nav-link">Docs</a><a href="/api.html" class="mobile-nav-link">API</a><a href="https://github.com/skalar/ddes/releases" class="mobile-nav-link">Releases</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/skalar/ddes" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Getting Started</strong><a href="index.html" class="mobile-nav-link">Overview</a><a href="store.html" class="mobile-nav-link">Defining an EventStore</a><a href="aggregates.html" class="mobile-nav-link">Defining an aggregate class</a><a href="aggregate_instances.html" class="mobile-nav-link">Aggregate instances</a><a href="example_playground.html" class="mobile-nav-link">Example playground</a><strong class="mobile-nav-title">Usage</strong><a href="snapshots.html" class="mobile-nav-link current">Aggregate snapshots</a><a href="projections.html" class="mobile-nav-link">Projections</a><a href="event_streaming.html" class="mobile-nav-link">Event streaming</a><a href="upcasters.html" class="mobile-nav-link">Upcasters</a><a href="auto_scaling.html" class="mobile-nav-link">Auto-scaling</a><a href="cli.html" class="mobile-nav-link">Command-line interface</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="docs/snapshots.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+<script src="/js/toc.js"></script>
+<script src="/js/mobile_nav.js"></script>
+<!-- endbuild -->
+
+
+</body>
+</html>
